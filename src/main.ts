@@ -1,6 +1,8 @@
 import data from "./lib/helpers/sample";
 const { eventlist } = data;
 
+eventlist.print();
+
 // export default content;
 
 // const parser = new DOMParser();

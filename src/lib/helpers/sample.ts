@@ -1,5 +1,6 @@
 import { ChordQuality, EventData } from "./index";
 import LinkedList from "../LinkedList/index";
+import ListNode from "../LinkedList/ListNode";
 
 const firstEvent: EventData = {
     root: "C",
@@ -41,7 +42,16 @@ const fourthEvent: EventData = {
 ***************/
 
 const eventlist = new LinkedList<EventData>();
-eventlist.addManyToHead(firstEvent, secondEvent, thirdEvent, fourthEvent);
+eventlist.addManyToTail(firstEvent, secondEvent, thirdEvent, fourthEvent);
+
+// eventlist.removeHead();
+// eventlist.removeTail();
+
+// eventlist.removeAtPosition(3);
+// eventlist.removeByData(fourthEvent);
+
+// const thirdnode = eventlist.findByData(thirdEvent) as ListNode<EventData>;
+// console.log(eventlist.findByNode(thirdnode));
 
 console.log(eventlist);
 

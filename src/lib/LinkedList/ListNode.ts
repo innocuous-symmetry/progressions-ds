@@ -10,11 +10,11 @@ export default class ListNode<T> extends Node<T> {
         this.prev = prev || null;
     }
 
-    setNextNode(node: ListNode<T>) {
+    setNextNode(node: ListNode<T> | null) {
         this.next = node;
     }
 
-    setPreviousNode(node: ListNode<T>) {
+    setPreviousNode(node: ListNode<T> | null) {
         this.prev = node;
     }
 

@@ -54,6 +54,12 @@ export default class LinkedList<T> {
         if (!this.head) this.head = newTail;
     }
 
+    addManyToTail(...items: T[]) {
+        for (let each of items) {
+            this.addToTail(each);
+        }
+    }
+
     removeHead(): T | null {
         const toRemove = this.head;
 
@@ -74,8 +80,12 @@ export default class LinkedList<T> {
         const toRemove = this.tail;
         if (!toRemove) return null;
 
-        const newTail = toRemove.nextNode;
+        const newTail = toRemove.prevNode;
         this.tail = newTail;
+
+        if (this.tail) {
+            this.tail.setNextNode(null);
+        }
 
         if (toRemove == this.head) {
             this.removeHead();
@@ -176,5 +186,25 @@ export default class LinkedList<T> {
         }
 
         return targetNode;
+    }
+
+    print() {
+        let output = "";
+        let current = this.head;
+        while (current !== null) {
+            if (current.data) {
+                if (typeof current.data == "string") {
+                    output += " " + current.data;
+                } else {
+                    output += " " + JSON.stringify(current.data);
+                }
+            } else {
+                output += " null";
+            }
+
+            current = current.nextNode;
+        }
+
+        console.log(output);
     }
 }
