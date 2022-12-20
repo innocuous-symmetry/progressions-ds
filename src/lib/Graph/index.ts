@@ -1,10 +1,10 @@
 import GraphNode from "./GraphNode";
 
 export default class Graph<T> {
-    private isWeighted: boolean;
-    private isDirected: boolean;
-    private points: GraphNode<T>[];
-    private count = 0;
+    protected isWeighted: boolean;
+    protected isDirected: boolean;
+    protected points: GraphNode<T>[];
+    protected count = 0;
 
     constructor(isWeighted: boolean, isDirected: boolean, points?: GraphNode<T>[]) {
         this.isWeighted = isWeighted;
@@ -12,14 +12,21 @@ export default class Graph<T> {
         this.points = points || new Array<GraphNode<T>>();
     }
 
-    createPoint(data: T) {
-        const newPoint = new GraphNode<T>(data, this.count);
+    createPoint(data: T | GraphNode<T>) {
+        let newPoint: GraphNode<T>;
+        if (data instanceof GraphNode<T>) {
+            data.setID(this.count);
+            newPoint = data;
+        } else {
+            newPoint = new GraphNode<T>(data, this.count);
+        }
+
         this.points.push(newPoint);
         this.count++;
         return newPoint;
     }
 
-    addPoints(...points: T[]) {
+    addPoints(...points: T[] | GraphNode<T>[]) {
         for (let point of points) {
             this.createPoint(point);
         }

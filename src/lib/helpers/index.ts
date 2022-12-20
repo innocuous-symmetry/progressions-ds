@@ -1,8 +1,8 @@
 export interface EventData {
-    root: string
+    root: string | number
     quality: ChordQuality
-    duration: number
-    beatStrength: 'Weak' | 'Moderate' | 'Strong'
+    duration?: number
+    beatStrength?: 'Weak' | 'Moderate' | 'Strong'
 }
 
 export enum ChordQuality {

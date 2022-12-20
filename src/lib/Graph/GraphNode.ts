@@ -2,12 +2,16 @@ import Node from "../helpers/Node";
 import Edge from "./Edge";
 
 export default class GraphNode<T> extends Node<T> {
-    edges: Edge<T>[]
-    id: number
+    protected edges: Edge<T>[]
+    protected id: number
 
-    constructor(data: T, id: number, edges?: Edge<T>[]) {
+    constructor(data: T, id?: number, edges?: Edge<T>[]) {
         super(data);
         this.edges = edges || new Array<Edge<T>>();
+        this.id = id || -1;
+    }
+
+    setID(id: number) {
         this.id = id;
     }
 

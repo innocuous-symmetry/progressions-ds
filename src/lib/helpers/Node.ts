@@ -7,7 +7,7 @@
 **/
 
 export default class Node<T> {
-    data?: T
+    public data: T
 
     constructor(data: any) {
         this.data = data;
