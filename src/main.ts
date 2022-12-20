@@ -1,7 +1,8 @@
 import data from "./lib/helpers/sample";
-const { eventlist } = data;
+const { eventlist, eventgraph } = data;
 
-eventlist.print();
+// eventlist.print();
+eventgraph.print();
 
 // export default content;
 

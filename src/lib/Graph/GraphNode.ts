@@ -3,10 +3,12 @@ import Edge from "./Edge";
 
 export default class GraphNode<T> extends Node<T> {
     edges: Edge<T>[]
+    id: number
 
-    constructor(data: T, edges?: Edge<T>[]) {
+    constructor(data: T, id: number, edges?: Edge<T>[]) {
         super(data);
         this.edges = edges || new Array<Edge<T>>();
+        this.id = id;
     }
 
     addEdge(destination: GraphNode<T>, weight?: number) {
@@ -19,9 +21,11 @@ export default class GraphNode<T> extends Node<T> {
 
     override print() {
         if (this.edges.length) {
-
+            for (let edge of this.edges) {
+                console.log(`Event ${this.id} --> Event ${edge.end.id}`);
+            }
         } else {
-            console.log(this.data);
+            console.log(`Event ${this.id} -->`);
         }
     }
 }

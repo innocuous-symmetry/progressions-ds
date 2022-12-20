@@ -1,9 +1,10 @@
 import GraphNode from "./GraphNode";
 
 export default class Graph<T> {
-    isWeighted: boolean;
-    isDirected: boolean;
-    points: GraphNode<T>[];
+    private isWeighted: boolean;
+    private isDirected: boolean;
+    private points: GraphNode<T>[];
+    private count = 0;
 
     constructor(isWeighted: boolean, isDirected: boolean, points?: GraphNode<T>[]) {
         this.isWeighted = isWeighted;
@@ -12,15 +13,26 @@ export default class Graph<T> {
     }
 
     createPoint(data: T) {
-        const newPoint = new GraphNode<T>(data);
+        const newPoint = new GraphNode<T>(data, this.count);
         this.points.push(newPoint);
+        this.count++;
         return newPoint;
     }
 
-    addPoints(...points: GraphNode<T>[]) {
+    addPoints(...points: T[]) {
         for (let point of points) {
-            this.points.push(point);
+            this.createPoint(point);
         }
+    }
+
+    getPointByData(data: T): GraphNode<T> | null {
+        for (let point of this.points) {
+            if (point.data === data) {
+                return point;
+            }
+        }
+
+        return null;
     }
 
     removePoint(target: GraphNode<T>) {
@@ -32,12 +44,16 @@ export default class Graph<T> {
     }
 
     addEdge(start: GraphNode<T>, end: GraphNode<T>, weight?: number) {
-        if (this.isWeighted && weight) {
-            start.addEdge(end, weight);
-            end.addEdge(start, weight);
+        if (this.isDirected) {
+            this.isWeighted ? start.addEdge(end, weight) : start.addEdge(end);
         } else {
-            start.addEdge(end);
-            end.addEdge(start);
+            if (this.isWeighted) {
+                start.addEdge(end, weight);
+                end.addEdge(start, weight);
+            } else {
+                start.addEdge(end);
+                end.addEdge(start);
+            }
         }
     }
 
