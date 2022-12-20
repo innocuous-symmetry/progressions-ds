@@ -3,12 +3,31 @@ import GraphNode from "./lib/Graph/GraphNode";
 import Graph from "./lib/Graph/index";
 import { ChordQuality, EventData } from "./lib/helpers/index";
 
+// graph node variant with logic specific to handling this data type
+class ChordNode<EventData> extends GraphNode<EventData> {
+    constructor(data: EventData, id = -1, edges?: Edge<EventData>[]) {
+        super(data, id, edges);
+    }
+
+    override print(excludeOrphans = false) {
+        if (!excludeOrphans) {
+            console.log(this.data['root' as keyof EventData], ChordQuality[this.data['quality' as keyof EventData] as number]);
+        }
+
+        if (this.edges.length) {
+            for (let edge of this.edges) {
+                console.log(`${this.data['root' as keyof EventData]} ${ChordQuality[this.data['quality' as keyof EventData] as number]} --> ${edge.end.data['root' as keyof EventData]} ${ChordQuality[edge.end.data['quality' as keyof EventData] as number]} ${edge.weight ? '(' + edge.weight + ')' : ''} `);
+            }
+        }
+    }
+}
+
 // factory to create data to populate graph
-function createChord(root: string, quality: ChordQuality): EventData {
-    return {
+function createChord(root: string, quality: ChordQuality): GraphNode<EventData> {
+    return new ChordNode<EventData>({
         root: root,
         quality: quality
-    }
+    });
 }
 
 // primary usable triads in C major
@@ -30,45 +49,27 @@ const bbmaj = createChord("Bb", ChordQuality.Major);
 const bmaj = createChord("B", ChordQuality.Major);
 
 // graph to host music theory logic
-class ChordNode<EventData> extends GraphNode<EventData> {
-    constructor(data: EventData, id = -1, edges?: Edge<EventData>[]) {
-        super(data, id, edges);
-    }
-
-    override print() {
-        if (this.edges.length) {
-            for (let edge of this.edges) {
-                console.log(this);
-                console.log(`${this.data.root, ChordQuality[this.data.quality]} --> ${edge.end.data.root, ChordQuality[edge.end.data.quality]}`);
-            }
-        }
-        
-        console.log(this.data.root, ChordQuality[this.data.quality]);
-    }
-}
-
 const chordChart = new Graph<EventData>(true, true);
 
 chordChart.addPoints(
-    new ChordNode<EventData>(cmaj),
-    new ChordNode<EventData>(dmin),
-    new ChordNode<EventData>(emin),
-    new ChordNode<EventData>(fmaj),
-    new ChordNode<EventData>(gmaj),
-    new ChordNode<EventData>(amin),
-    new ChordNode<EventData>(dmaj),
-    new ChordNode<EventData>(emaj),
-    new ChordNode<EventData>(ebmaj),
-    new ChordNode<EventData>(fmin),
-    new ChordNode<EventData>(gmin),
-    new ChordNode<EventData>(abmaj),
-    new ChordNode<EventData>(bbmaj),
-    new ChordNode<EventData>(bmaj)
+    cmaj,
+    dmin,
+    emin,
+    fmaj,
+    gmaj,
+    amin,
+    dmaj,
+    emaj,
+    ebmaj,
+    fmin,
+    gmin,
+    abmaj,
+    bbmaj,
+    bmaj
 );
 
-const cmajnode = chordChart.getPointByData(cmaj) as ChordNode<EventData>;
-const dminnode = chordChart.getPointByData(dmin) as ChordNode<EventData>;
-
-chordChart.addEdge(cmajnode, dminnode);
+chordChart.addEdge(cmaj, dmin, 15);
+chordChart.addEdge(cmaj, gmaj, 50);
+chordChart.addEdge(fmaj, gmaj, 50);
 
 export default chordChart;

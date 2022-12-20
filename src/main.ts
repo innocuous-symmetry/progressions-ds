@@ -1,3 +1,3 @@
 import chordChart from "./chordChart";
 
-chordChart.print();
+chordChart.print(true);

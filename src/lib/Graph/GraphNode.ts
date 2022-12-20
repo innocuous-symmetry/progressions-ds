@@ -23,13 +23,13 @@ export default class GraphNode<T> extends Node<T> {
         this.edges.filter((value: Edge<T>) => value.end !== destination)
     }
 
-    override print() {
+    override print(excludeOrphans = false) {
         if (this.edges.length) {
             for (let edge of this.edges) {
                 console.log(`Event ${this.id} --> Event ${edge.end.id}`);
             }
         } else {
-            console.log(`Event ${this.id} -->`);
+            if (!excludeOrphans) console.log(`Event ${this.id} -->`);
         }
     }
 }

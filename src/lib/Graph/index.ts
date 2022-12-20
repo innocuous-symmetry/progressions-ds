@@ -73,9 +73,9 @@ export default class Graph<T> {
         }
     }
 
-    print() {
+    print(excludeOrphans = false) {
         for (let each of this.points) {
-            each.print();
+            each.print(excludeOrphans);
         }
     }
 }
